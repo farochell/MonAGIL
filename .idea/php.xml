@@ -518,6 +518,9 @@
       <path value="$PROJECT_DIR$/../../PHP/api-monagil-new/vendor/symfony/property-access" />
       <path value="$PROJECT_DIR$/../../PHP/api-monagil-new/vendor/symfony/polyfill-php84" />
       <path value="$PROJECT_DIR$/../../PHP/api-monagil-new/vendor/symfony/polyfill-uuid" />
+      <path value="$PROJECT_DIR$/backend/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/monolog-bridge" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/monolog-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.4" />
@@ -532,6 +535,7 @@
   <component name="PhpUnit">
     <phpunit_settings>
       <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/../defi-fullstack-app/backend/vendor/autoload.php" />
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/backend/vendor/autoload.php" paratest_path="$PROJECT_DIR$/../../PHP/api-monagil-new/vendor/bin/paratest_for_phpstorm" />
     </phpunit_settings>
   </component>
   <component name="Psalm">
