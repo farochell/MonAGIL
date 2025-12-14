@@ -1,9 +1,9 @@
 tls:
   certificates:
-    - certFile: /certs/wildcard.defifullstack.com.crt
-      keyFile: /certs/wildcard.defifullstack.com.key
+    - certFile: /certs/_wildcard.monagil.dev.crt
+      keyFile: /certs/_wildcard.monagil.dev.key
   stores:
     default:
       defaultCertificate:
-        certFile: /certs/wildcard.defifullstack.com.crt
-        keyFile: /certs/wildcard.defifullstack.com.key
+        certFile: /certs/_wildcard.monagil.dev.crt
+        keyFile: /certs/_wildcard.monagil.dev.key
