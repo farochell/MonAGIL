@@ -21,3 +21,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Shared\Infrastructure\Bus\Command\InMemoryCommandBus:
+        arguments: [ !tagged_iterator app.command_handler ]
+
+    App\Shared\Infrastructure\Bus\Query\InMemoryQueryBus:
+        arguments: [ !tagged_iterator app.query_handler ]
+
+    App\Shared\Infrastructure\Bus\Event\InMemoryEventBus:
+        arguments: [ !tagged_iterator app.domain_event_subscriber ]
+
+    App\Shared\UI\Http\Rest\Exception\ApiExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
