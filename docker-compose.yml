@@ -1,0 +1,86 @@
+services:
+  # Traefik en statique (sans Docker provider)
+  traefik:
+    image: traefik:v2.10
+    command:
+      - --log.level=DEBUG
+      - --accesslog=true
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.file.directory=/etc/traefik/dynamic
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - ./traefik:/etc/traefik/dynamic:ro
+      - ./certs:/certs:ro
+    networks:
+      - monagil
+    restart: unless-stopped
+
+  # Base de données
+  db:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - monagil
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+
+  # Backend FrankenPHP
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/config:/app/config
+      - ./backend/public:/app/public
+      - ./backend/tests:/app/tests
+      - ./backend/reports:/app/reports
+    environment:
+      - SERVER_NAME=:8000
+      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}?charset=utf8mb4&serverVersion=mariadb-10.6.0
+      - DATABASE_TEST_URL=mysql://root:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}?charset=utf8mb4&serverVersion=mariadb-10.6.0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.monagil.dev`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls=true"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+      - "traefik.http.routers.backend-http.rule=Host(`api.monagil.dev`)"
+      - "traefik.http.routers.backend-http.entrypoints=web"
+      - "traefik.http.routers.backend-http.middlewares=redirect-https"
+    ports:
+      - "8000:8000" # exposer le port pour Traefik
+    networks:
+      - monagil
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
+
+networks:
+  monagil:
+    driver: bridge
+

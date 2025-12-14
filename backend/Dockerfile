@@ -30,11 +30,11 @@ RUN mkdir -p var/cache var/log && \
     chmod -R 775 var/
 
 # Copier et configurer l'entrypoint
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# Healthcheck adapté (vérifie juste que le serveur répond)
-HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
-    CMD curl -f http://localhost/ || exit 1
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+#COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+#RUN chmod +x /usr/local/bin/entrypoint.sh
+#
+## Healthcheck adapté (vérifie juste que le serveur répond)
+#HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
+#    CMD curl -f http://localhost/ || exit 1
+#
+#ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

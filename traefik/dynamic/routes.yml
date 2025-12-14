@@ -1,24 +1,24 @@
 http:
   routers:
-    frontend:
-      entryPoints:
-        - websecure
-      rule: "Host(`app.defifullstack.com`)"
-      tls: {}
-      service: frontend
+   #frontend:
+   #  entryPoints:
+   #    - websecure
+   #  rule: "Host(`app.monagil.dev`)"
+   #  tls: {}
+   #  service: frontend
 
     backend:
       entryPoints:
         - websecure
-      rule: "Host(`api.defifullstack.com`)"
+      rule: "Host(`api.monagil.dev`)"
       tls: {}
       service: backend
 
   services:
-    frontend:
-      loadBalancer:
-        servers:
-          - url: "http://frontend:5173"
+    #frontend:
+    #  loadBalancer:
+    #    servers:
+    #      - url: "http://frontend:4200"
 
     backend:
       loadBalancer:
