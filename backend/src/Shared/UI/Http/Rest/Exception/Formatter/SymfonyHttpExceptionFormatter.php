@@ -3,7 +3,7 @@
 /**
  * @author Emile Camara <camara.emile@gmail.com>
  *
- * @project  defi-fullstack-app
+ * @project  mon-agil
  */
 
 declare(strict_types=1);
@@ -21,7 +21,7 @@ class SymfonyHttpExceptionFormatter
     public static function format(HttpException $exception): array
     {
         return [
-            'code' => ErrorCode::toString($exception->getStatusCode()),
+            'code' => ErrorCode::fromHttpStatusCode($exception->getStatusCode())->toString(),
             'message' => $exception->getMessage(),
             'details' => [],
         ];

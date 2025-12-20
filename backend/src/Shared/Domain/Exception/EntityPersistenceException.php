@@ -3,7 +3,7 @@
 /**
  * @author Emile Camara <camara.emile@gmail.com>
  *
- * @project  defi-fullstack-app
+ * @project  mon-agil
  */
 
 declare(strict_types=1);

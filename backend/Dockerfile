@@ -4,6 +4,7 @@ FROM dunglas/frankenphp:1-php8.4-bookworm
 RUN apt-get update && apt-get install -y \
     default-mysql-client \
     netcat-openbsd \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Installer les extensions PHP nécessaires
@@ -19,7 +20,7 @@ WORKDIR /app
 COPY composer.json composer.lock symfony.lock ./
 
 # Installer les dépendances Composer (sera refait dans l'entrypoint si nécessaire)
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --optimize-autoloader --no-dev --no-scripts
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --optimize-autoloader --no-scripts
 
 # Copier le reste de l'application
 COPY ./ /app
@@ -30,11 +31,11 @@ RUN mkdir -p var/cache var/log && \
     chmod -R 775 var/
 
 # Copier et configurer l'entrypoint
-#COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-#RUN chmod +x /usr/local/bin/entrypoint.sh
-#
-## Healthcheck adapté (vérifie juste que le serveur répond)
-#HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
-#    CMD curl -f http://localhost/ || exit 1
-#
-#ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Healthcheck adapté (vérifie juste que le serveur répond, accepte 200-499)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
+    CMD curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/ | grep -qE "^[2-4][0-9][0-9]$"
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
