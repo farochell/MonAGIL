@@ -1,0 +1,87 @@
+<?php
+/**
+ * @author Emile Camara <camara.emile@gmail.com>
+ * @project  api-monagil
+ */
+declare(strict_types=1);
+
+namespace App\Shared\Infrastructure\EventSubscriber;
+
+use App\Authentication\Domain\Service\AccessTokenDecoder;
+use App\Shared\Infrastructure\Context\InMemoryContextService;
+use Exception;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+
+readonly class MiddlewareSubscriber implements EventSubscriberInterface
+{
+  public function __construct(
+    private AccessTokenDecoder $accessTokenDecoder,
+  ) {
+  }
+
+  public static function getSubscribedEvents(): array
+  {
+    return [
+      RequestEvent::class => [
+        ['checkSecurityHeader', 0],
+      ],
+    ];
+  }
+
+  public function checkSecurityHeader(RequestEvent $requestEvent): void
+  {
+    if ($this->ignoredUri($requestEvent->getRequest())) {
+      return;
+    }
+    $header = $requestEvent->getRequest()->headers->get('authorization');
+    if (null === $header) {
+      $requestEvent->setResponse(
+        new JsonResponse(
+          ['message' => 'Unauthorized'],
+          Response::HTTP_UNAUTHORIZED,
+        ),
+      );
+      return;
+    }
+    $token = str_replace('Bearer ', '', $header);
+    try {
+      $user = $this->accessTokenDecoder->decode($token);
+      InMemoryContextService::set('user', $user);
+      $requestEvent->getRequest()->attributes->set('user', $user);
+      $memoryContextService = new InMemoryContextService();
+    } catch (Exception) {
+      $requestEvent->setResponse(
+        new JsonResponse(
+          ['message' => 'Unauthorized'],
+          Response::HTTP_UNAUTHORIZED,
+        ),
+      );
+      return;
+    }
+  }
+
+  private function ignoredUri(Request $request): bool
+  {
+    $uri = rtrim(
+      substr(
+        $request->getRequestUri(),
+        strlen($request->getBaseUrl(),
+        ),
+      ),
+      '/',
+    );
+
+    return $uri === '/'
+      || str_starts_with($uri, '/api/login')
+      || str_starts_with($uri, '/api/auth')
+      || str_starts_with($uri, '/api/docs')
+      || str_starts_with($uri, '/api/register')
+      || str_starts_with($uri, '/_profiler/')
+      || str_starts_with($uri, '/_wdt/')
+      || str_starts_with($uri, '/_fragment/');
+  }
+}

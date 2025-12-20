@@ -50,3 +50,8 @@ services:
             $privateKeyPath: '%kernel.project_dir%/config/%env(JWT_SECRET_KEY)%'
             $publicKeyPath: '%kernel.project_dir%/config/%env(JWT_PUBLIC_KEY)%'
             $passphrase: '%env(JWT_PASSPHRASE)%'
+
+    App\Shared\Infrastructure\EventSubscriber\MiddlewareSubscriber:
+        arguments:
+            $accessTokenDecoder: '@App\Authentication\Domain\Service\AccessTokenDecoder'
+
