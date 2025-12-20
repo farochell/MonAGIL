@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../PHP/api-monagil-new/.idea/api-monagil.iml" filepath="$PROJECT_DIR$/../../PHP/api-monagil-new/.idea/api-monagil.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mon-agil.iml" filepath="$PROJECT_DIR$/.idea/mon-agil.iml" />
     </modules>
   </component>

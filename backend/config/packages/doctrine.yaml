@@ -7,6 +7,13 @@ doctrine:
         #server_version: '16'
 
         profiling_collect_backtrace: '%kernel.debug%'
+        types:
+            email: App\User\Infrastructure\Doctrine\Type\EmailType
+            hashed_password: App\User\Infrastructure\Doctrine\Type\HashedPasswordType
+            legacy_id: App\User\Infrastructure\Doctrine\Type\LegacyIdType
+            roles: App\User\Infrastructure\Doctrine\Type\RolesType
+            user_id: App\User\Infrastructure\Doctrine\Type\UserIdType
+            mango_user_id: App\User\Infrastructure\Doctrine\Type\MangoUserIdType
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -14,12 +21,12 @@ doctrine:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: true
         mappings:
-           #App:
-           #    type: attribute
-           #    is_bundle: false
-           #    dir: '%kernel.project_dir%/src/Entity'
-           #    prefix: 'App\Entity'
-           #    alias: App
+           User:
+               type: attribute
+               is_bundle: false
+               dir: '%kernel.project_dir%/src/User/Infrastructure/Doctrine/Mapping'
+               prefix: 'App\User\Infrastructure\Doctrine\Mapping'
+               alias: User
         controller_resolver:
             auto_mapping: false
 

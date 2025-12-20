@@ -54,11 +54,20 @@ services:
       - ./backend/config:/app/config
       - ./backend/public:/app/public
       - ./backend/tests:/app/tests
-      - ./backend/reports:/app/reports
+      - ./backend/templates:/app/templates
+      - ./backend/migrations:/app/migrations
+      - ./backend/composer.json:/app/composer.json
+      - ./backend/composer.lock:/app/composer.lock
+      - ./backend/symfony.lock:/app/symfony.lock
+      - ./backend/.env:/app/.env
+      - backend_var:/app/var
+      - backend_vendor:/app/vendor
     environment:
+      - APP_ENV=dev
+      - APP_SECRET=${APP_SECRET:-changeme}
       - SERVER_NAME=:8000
       - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}?charset=utf8mb4&serverVersion=mariadb-10.6.0
-      - DATABASE_TEST_URL=mysql://root:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}?charset=utf8mb4&serverVersion=mariadb-10.6.0
+      - MAILER_DSN=smtp://mailcatcher:1025
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`api.monagil.dev`)"
@@ -69,7 +78,7 @@ services:
       - "traefik.http.routers.backend-http.entrypoints=web"
       - "traefik.http.routers.backend-http.middlewares=redirect-https"
     ports:
-      - "8000:8000" # exposer le port pour Traefik
+      - "8000:8000"
     networks:
       - monagil
     restart: unless-stopped
@@ -77,8 +86,57 @@ services:
       db:
         condition: service_healthy
 
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=${MYSQL_USER}
+      - PMA_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - UPLOAD_LIMIT=512M
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`pma.monagil.dev`)"
+      - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
+      - "traefik.http.routers.phpmyadmin.tls=true"
+      - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
+      - "traefik.http.routers.phpmyadmin-http.rule=Host(`pma.monagil.dev`)"
+      - "traefik.http.routers.phpmyadmin-http.entrypoints=web"
+      - "traefik.http.routers.phpmyadmin-http.middlewares=redirect-https"
+    ports:
+      - "8081:80"
+    networks:
+      - monagil
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Mailcatcher
+  mailcatcher:
+    image: schickling/mailcatcher:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailcatcher.rule=Host(`mail.monagil.dev`)"
+      - "traefik.http.routers.mailcatcher.entrypoints=websecure"
+      - "traefik.http.routers.mailcatcher.tls=true"
+      - "traefik.http.services.mailcatcher.loadbalancer.server.port=1080"
+      - "traefik.http.routers.mailcatcher-http.rule=Host(`mail.monagil.dev`)"
+      - "traefik.http.routers.mailcatcher-http.entrypoints=web"
+      - "traefik.http.routers.mailcatcher-http.middlewares=redirect-https"
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - monagil
+    restart: unless-stopped
+
 volumes:
   db_data:
+  backend_var:
+  backend_vendor:
 
 networks:
   monagil:

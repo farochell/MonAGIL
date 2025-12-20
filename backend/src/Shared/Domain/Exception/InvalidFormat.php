@@ -3,7 +3,7 @@
 /**
  * @author Emile Camara <camara.emile@gmail.com>
  *
- * @project  automarkt
+ * @project  mon-agil
  */
 
 declare(strict_types=1);
