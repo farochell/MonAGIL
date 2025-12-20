@@ -81,7 +81,7 @@ class User extends AggregateRoot
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id->value();
     }
 
     public function isArtisan(): bool

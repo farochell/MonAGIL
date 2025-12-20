@@ -28,26 +28,27 @@ class UserIdType extends UuidType
     }
 
     #[\Override]
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
-    {
-        if (null === $value) {
-            return null;
-        }
-
-        $bin = hex2bin(str_replace('-', '', $value->toString()));
-
-        if (false === $bin) {
-            throw new \InvalidArgumentException(sprintf('Valeur invalide "%s" pour RouteIdType', $value->toString()));
-        }
-
-        return $bin;
-    }
-
-    #[\Override]
     public function convertToPHPValue($value, AbstractPlatform $platform): ?UserId
     {
-        if (null === $value) {
+        if ($value === null) {
             return null;
+        }
+
+        if (is_resource($value)) {
+            $value = stream_get_contents($value);
+        }
+
+        if (!is_string($value)) {
+            throw new \InvalidArgumentException(sprintf(
+                'UserIdType expects binary string, %s given',
+                gettype($value)
+            ));
+        }
+
+        if (strlen($value) !== 16) {
+            throw new \InvalidArgumentException(
+                'Invalid binary UUID length, expected 16 bytes'
+            );
         }
 
         $hex = bin2hex($value);
@@ -55,6 +56,9 @@ class UserIdType extends UuidType
 
         return UserId::fromString($uuid);
     }
+
+
+
 
     public function getName(): string
     {

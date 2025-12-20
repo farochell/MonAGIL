@@ -10,7 +10,7 @@ doctrine:
         types:
             email: App\User\Infrastructure\Doctrine\Type\EmailType
             hashed_password: App\User\Infrastructure\Doctrine\Type\HashedPasswordType
-            legacy_id: App\User\Infrastructure\Doctrine\Type\LegacyIdType
+            legacy_user_id: App\User\Infrastructure\Doctrine\Type\LegacyUserIdType
             roles: App\User\Infrastructure\Doctrine\Type\RolesType
             user_id: App\User\Infrastructure\Doctrine\Type\UserIdType
             mango_user_id: App\User\Infrastructure\Doctrine\Type\MangoUserIdType

@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace App\Shared\Application;
 
-abstract class SerializableResponse implements \JsonSerializable
+use JsonSerializable;
+
+abstract class SerializableResponse implements JsonSerializable
 {
 }
