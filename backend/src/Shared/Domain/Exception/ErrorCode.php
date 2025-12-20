@@ -13,6 +13,7 @@ namespace App\Shared\Domain\Exception;
 enum ErrorCode: string
 {
     case AUTH_MISSING_TOKEN = 'AUTH_MISSING_TOKEN';
+    case AUTH_INVALID_TOKEN = 'AUTH_INVALID_TOKEN';
     case AUTH_FORBIDDEN = 'AUTH_FORBIDDEN';
     case NETWORK_DISCONNECTED = 'NETWORK_DISCONNECTED';
     case ANALYTIC_INVALID_PERIOD = 'ANALYTIC_INVALID_PERIOD';
@@ -27,6 +28,8 @@ enum ErrorCode: string
     case ACCESS_FORBIDDEN = 'ACCESS_FORBIDDEN';
     case EVENT_SUBSCRIBER_EXCEPTION = 'EVENT_SUBSCRIBER_EXCEPTION';
     case USER_NOT_FOUND = 'USER_NOT_FOUND';
+
+    case AUTH_TOKEN_EXPIRED = 'AUTH_TOKEN_EXPIRED';
 
     public static function fromHttpStatusCode(int $statusCode): self
     {

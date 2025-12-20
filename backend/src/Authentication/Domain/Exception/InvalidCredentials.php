@@ -5,32 +5,28 @@
  */
 declare(strict_types=1);
 
-namespace App\User\Domain\Exception;
+namespace App\Authentication\Domain\Exception;
 
 use App\Shared\Domain\Exception\ApiExceptionInterface;
 use App\Shared\Domain\Exception\ApiExceptionTrait;
 use App\Shared\Domain\Exception\ErrorCode;
 use DomainException;
 
-class EmailAlreadyExistException extends DomainException implements ApiExceptionInterface
-{
+class InvalidCredentials extends DomainException implements ApiExceptionInterface {
     use ApiExceptionTrait;
 
-    public function __construct(private readonly string $email)
+    public function __construct()
     {
         parent::__construct(
-            message: 'Email déjà utilisé',
-            code: 409
+            message: 'Username or password is incorrect',
+            code: 401
         );
     }
-
     public function getErrorCode(): ErrorCode {
-        return ErrorCode::EMAIL_ALREADY_EXISTS;
+       return ErrorCode::INVALID_CREDENTIALS;
     }
 
     public function getDetails(): array {
-        return [
-            'email' =>$this->email
-        ];
+        return [];
     }
 }

@@ -5,32 +5,30 @@
  */
 declare(strict_types=1);
 
-namespace App\User\Domain\Exception;
+namespace App\Authentication\Domain\Exception;
 
 use App\Shared\Domain\Exception\ApiExceptionInterface;
 use App\Shared\Domain\Exception\ApiExceptionTrait;
 use App\Shared\Domain\Exception\ErrorCode;
 use DomainException;
 
-class EmailAlreadyExistException extends DomainException implements ApiExceptionInterface
-{
+class AuthTokenInvalid extends DomainException implements ApiExceptionInterface {
     use ApiExceptionTrait;
 
-    public function __construct(private readonly string $email)
-    {
+    public function __construct() {
         parent::__construct(
-            message: 'Email déjà utilisé',
-            code: 409
+            message: 'Token invalid',
+            code: 401
         );
     }
 
     public function getErrorCode(): ErrorCode {
-        return ErrorCode::EMAIL_ALREADY_EXISTS;
+        return ErrorCode::AUTH_TOKEN_INVALID;
     }
 
     public function getDetails(): array {
         return [
-            'email' =>$this->email
+            'message' => $this->getMessage()
         ];
     }
 }

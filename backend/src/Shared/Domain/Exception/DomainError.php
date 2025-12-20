@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\Exception;
 
+use DomainException;
+
 abstract class DomainError extends DomainException implements ApiExceptionInterface
 {
     public function __construct(public string $msg = '')

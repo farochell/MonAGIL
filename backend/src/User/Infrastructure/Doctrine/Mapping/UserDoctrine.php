@@ -22,7 +22,7 @@ class UserDoctrine {
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: 'user_id')]
+    #[ORM\Column(type: 'legacy_user_id')]
     public LegacyUserId $id;
 
     #[ORM\Column(name: 'uuid', type: 'user_id', unique: true)]
