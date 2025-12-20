@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Emile Camara <camara.emile@gmail.com>
- * @project  api-monagil
+ * @project  mon-agil
  */
 declare(strict_types=1);
 
@@ -36,13 +36,13 @@ class LoginResource {
     )]
     #[Groups(['login'])]
     public string $username;
-    
+
     #[ApiProperty(
         description: 'The password',
     )]
     #[Groups(['login'])]
     public string $password;
-    
+
     public function __construct(string $username, string $password)
     {
         $this->username = $username;

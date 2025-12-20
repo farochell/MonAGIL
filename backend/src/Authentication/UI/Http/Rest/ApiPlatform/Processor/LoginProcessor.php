@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Emile Camara <camara.emile@gmail.com>
- * @project  api-monagil
+ * @project  mon-agil
  */
 declare(strict_types=1);
 
