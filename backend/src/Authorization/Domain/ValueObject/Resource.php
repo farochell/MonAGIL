@@ -11,4 +11,5 @@ enum Resource
 {
     case User;
     case Role;
+    case ServiceType;
 }

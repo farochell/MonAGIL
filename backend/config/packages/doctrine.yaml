@@ -14,6 +14,9 @@ doctrine:
             roles: App\User\Infrastructure\Doctrine\Type\RolesType
             user_id: App\User\Infrastructure\Doctrine\Type\UserIdType
             mango_user_id: App\User\Infrastructure\Doctrine\Type\MangoUserIdType
+            #ServiceType
+            service_type_uuid: App\ServiceType\Infrastructure\Doctrine\Type\ServiceTypeUuidType
+
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -27,6 +30,12 @@ doctrine:
                dir: '%kernel.project_dir%/src/User/Infrastructure/Doctrine/Mapping'
                prefix: 'App\User\Infrastructure\Doctrine\Mapping'
                alias: User
+           ServiceType:
+               type: attribute
+               is_bundle: false
+               dir: '%kernel.project_dir%/src/ServiceType/Infrastructure/Doctrine/Mapping'
+               prefix: 'App\ServiceType\Infrastructure\Doctrine\Mapping'
+               alias: ServiceType
         controller_resolver:
             auto_mapping: false
 
