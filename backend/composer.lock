@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a82a9fb3ce49acd2eb52087f80648d40",
+    "content-hash": "bffcd5da7c6a3da07747481dad45cf49",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -2478,6 +2478,49 @@
                 "source": "https://github.com/Lambdish/phunctional/tree/v2.1.0"
             },
             "time": "2020-09-18T07:22:08+00:00"
+        },
+        {
+            "name": "mangopay4/php-sdk",
+            "version": "3.47.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Mangopay/mangopay4-php-sdk.git",
+                "reference": "febd62aeae9e6862d37c2484f7cf41a9bc5bef54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Mangopay/mangopay4-php-sdk/zipball/febd62aeae9e6862d37c2484f7cf41a9bc5bef54",
+                "reference": "febd62aeae9e6862d37c2484f7cf41a9bc5bef54",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "php": ">=5.6",
+                "psr/log": "^1.0|^2.0|^3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.18",
+                "phpunit/phpunit": ">=5.7.27 <10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MangoPay\\": "MangoPay"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP SDK for MANGOPAY",
+            "support": {
+                "issues": "https://github.com/Mangopay/mangopay4-php-sdk/issues",
+                "source": "https://github.com/Mangopay/mangopay4-php-sdk/tree/3.47.2"
+            },
+            "time": "2025-11-26T19:48:03+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7632,5 +7675,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }

@@ -31,6 +31,14 @@ enum ErrorCode: string
 
     case AUTH_TOKEN_EXPIRED = 'AUTH_TOKEN_EXPIRED';
 
+    case NEGATIVE_AMOUNT_VALUE = 'NEGATIVE_AMOUNT_VALUE';
+    case PRE_PAYMENT_NOT_AUTHORIZED = 'PRE_PAYMENT_NOT_AUTHORIZED';
+    case PRE_PAYMENT_CAN_BE_CAPTURED = 'PRE_PAYMENT_CAN_BE_CAPTURED';
+
+    case NEGATIVE_RATE_VALUE = 'NEGATIVE_RATE_VALUE';
+    case NATURAL_USER_INVALID = 'NATURAL_USER_INVALID';
+    case LEGAL_USER_INVALID = 'LEGAL_USER_INVALID';
+
     public static function fromHttpStatusCode(int $statusCode): self
     {
         return match ($statusCode) {

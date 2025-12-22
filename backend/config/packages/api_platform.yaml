@@ -11,6 +11,7 @@ api_platform:
             - '%kernel.project_dir%/src/Authentication/UI/Http/Rest/ApiPlatform/'
             - '%kernel.project_dir%/src/User/UI/Http/Rest/ApiPlatform/'
             - '%kernel.project_dir%/src/ServiceType/UI/Http/Rest/ApiPlatform/'
+            - '%kernel.project_dir%/src/Payment/UI/Http/Rest/ApiPlatform/'
     formats:
         jsonld: [ 'application/ld+json' ]
         json: [ 'application/json' ]

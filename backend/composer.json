@@ -14,6 +14,7 @@
         "doctrine/orm": "^3.5",
         "firebase/php-jwt": "^7.0",
         "lambdish/phunctional": "^2.1",
+        "mangopay4/php-sdk": "^3.47",
         "nelmio/cors-bundle": "^2.6",
         "phpdocumentor/reflection-docblock": "^5.6",
         "phpstan/phpdoc-parser": "^2.3",

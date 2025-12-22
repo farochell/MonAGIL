@@ -14,12 +14,14 @@ enum Role: string
     case propertyManager = 'ROLE_GESTIONNAIRE';
     case artisan = 'ROLE_ARTISAN';
     case admin = 'ROLE_ADMIN';
+    case api = 'ROLE_API';
 
     public static function fromString(string $value): Role {
         return match($value) {
             'ROLE_ADMIN' => self::admin,
             'ROLE_GESTIONNAIRE' => self::propertyManager,
             'ROLE_ARTISAN' => self::artisan,
+            'ROLE_API' => self::api,
             default => throw new InvalidArgumentException("Invalid role: $value"),
         };
     }

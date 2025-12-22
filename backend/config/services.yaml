@@ -55,3 +55,10 @@ services:
         arguments:
             $accessTokenDecoder: '@App\Authentication\Domain\Service\AccessTokenDecoder'
 
+    App\Payment\Infrastructure\Service\MangopayApiFactory:
+        arguments:
+            $clientId: '%env(MANGOPAY_CLIENT_ID)%'
+            $clientPassword: '%env(MANGOPAY_CLIENT_PASSWORD)%'
+            $baseUrl: '%env(MANGOPAY_BASE_URL)%'
+            $tempFolder: '%kernel.project_dir%/var/mangopay'
+

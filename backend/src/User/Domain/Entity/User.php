@@ -99,6 +99,11 @@ class User extends AggregateRoot
         return $this->roles->has(Role::propertyManager);
     }
 
+    public function isApi(): bool
+    {
+        return $this->roles->has(Role::api);
+    }
+
     private function generateToken(): string
     {
         return md5(uniqid($this->email->value(), true));

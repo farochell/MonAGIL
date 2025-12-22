@@ -69,12 +69,12 @@ class MysqlUserRepository extends BaseRepository implements UserRepository {
 
     public function findByEmail(Email $email): ?User
     {
-
         $user = $this->getEntityManager()
             ->getRepository(UserDoctrine::class)
             ->findOneBy(['email' => $email->value()]);
         if ($user === null) {
             $this->logAndThrowNotFoundException($email->value());
+            return null;
         }
         return $this->transformEntity($user);
     }

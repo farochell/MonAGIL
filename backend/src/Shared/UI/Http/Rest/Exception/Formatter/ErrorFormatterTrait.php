@@ -20,7 +20,6 @@ trait ErrorFormatterTrait
     public function formatError(\Throwable $error): ?JsonResponse
     {
 
-
         if ($error instanceof ValidationException) {
             return new JsonResponse(SymfonyValidationExceptionFormatter::format($error), 400);
         }
@@ -35,6 +34,6 @@ trait ErrorFormatterTrait
             'details' => [
                 $error->getMessage(),
             ],
-        ], $error->getCode());
+        ], 500);
     }
 }
